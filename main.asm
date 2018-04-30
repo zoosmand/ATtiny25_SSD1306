@@ -61,13 +61,13 @@ MAIN:
   rjmp _GO_TO_SLEEP
 
   cbr _EREG_, (1<<_DRIF_)
-	sbrc _EREG_, _I2CERF_
-	rcall SSD1306_INIT
-	rcall SEND_HALLO
+  sbrc _EREG_, _I2CERF_
+  rcall SSD1306_INIT
+  rcall SEND_HALLO
 
   _RESTORE_TIMER:
     rcall CLEAR_TIMER
-	  rcall INIT_TIMER
+    rcall INIT_TIMER
 
   _GO_TO_SLEEP:
     in tmp, MCUCR
@@ -161,8 +161,6 @@ SEND_HALLO:
   ldi ZL, low(2*SSD1306_symbol_2)
   rcall SSD1306_SEND_SYMBOL
 
-#elif
-#error "You have to define horizontal or vertical position."
 #endif
 
   rcall I2CM_STOP
