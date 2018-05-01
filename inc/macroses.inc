@@ -1,17 +1,17 @@
-/*
- * macroses.inc
- *
- *  Created: 30.04.2018 13:08:12
- *   Author: zoosman
- */ 
+;/*
+; * macroses.inc
+; *
+; *  Created: 30.04.2018 13:08:12
+; *   Author: zoosman
+; */ 
 
-/********************************** Long Time Counter ************************************/
+;/********************************** Long Time Counter ************************************/
 .MACRO set_tcnt
   ldi tcntH, 0x00
   ldi tcntL, 0x7f ; approximately 4.5s
 .ENDMACRO
 
-/**************************************** Delay ******************************************/
+;/**************************************** Delay ******************************************/
 .MACRO DELAY_MACRO
   ldi tmp, @0
   mov dClock, tmp
