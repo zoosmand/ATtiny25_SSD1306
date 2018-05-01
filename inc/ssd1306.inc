@@ -1,13 +1,13 @@
-/*
- * ssd1306.inc
- *
- *  Created: 30.04.2018 13:17:03
- *   Author: zoosman
- */ 
+;/*
+; * ssd1306.inc
+; *
+; *  Created: 30.04.2018 13:17:03
+; *   Author: zoosman
+; */ 
 
 
 
- /********************************* SSD1306 Routines *************************************/
+;/********************************* SSD1306 Routines *************************************/
 SSD1306_INIT:
   cbr _EREG_, (1<<_I2CERF_) ; Clear error flag
   rcall CLEAR_TIMER
@@ -28,19 +28,19 @@ SSD1306_INIT:
     mov R1, tmp
     _SSD1306_SEND_CLEAR_BATCH:
       ldi tmp, 0x80
-	    mov R0, tmp
+      mov R0, tmp
       _SSD1306_SEND_CLEAR:
         ldi txByte, 0
         rcall I2CM_SEND_PACKET
         dec R0
         brne _SSD1306_SEND_CLEAR
-	  dec R1
-	  brne _SSD1306_SEND_CLEAR_BATCH
+      dec R1
+      brne _SSD1306_SEND_CLEAR_BATCH
     rcall I2CM_STOP
     rcall INIT_TIMER
   ret
 
-/* ////////////////////////////// SDD1306 Send Packet ////////////////////////////////// */
+;/* ////////////////////////////// SDD1306 Send Packet ////////////////////////////////// */
 SSD1306_SEND_PACKET:
   sbrc _EREG_, _I2CERF_ ; Check error flag
   ret
@@ -53,13 +53,13 @@ SSD1306_SEND_PACKET:
   rcall I2CM_SEND_PACKET
   ret
 
-/* ////////////////////////////// SDD1306 Send Command ///////////////////////////////// */
+;/* ////////////////////////////// SDD1306 Send Command ///////////////////////////////// */
 SSD1306_SEND_COMMAND:
   sbrc _EREG_, _I2CERF_ ; Check error flag
   ret
   push txByte
   rcall I2CM_START
-  DELAY_MACRO 0x03, 0x06 // TCCR0B (1<<CS01)|(1<<CS00) - 64, 6, 48us
+  DELAY_MACRO 0x03, 0x06 ; TCCR0B (1<<CS01)|(1<<CS00) - 64, 6, 48us
   lds txByte, lcdAddr
   rcall I2CM_SEND_ADDRESS
   ldi txByte, 0
@@ -69,7 +69,7 @@ SSD1306_SEND_COMMAND:
   rcall I2CM_STOP
   ret
 
-/* ////////////////////////////// SDD1306 Send Symbol ////////////////////////////////// */
+;/* ////////////////////////////// SDD1306 Send Symbol ////////////////////////////////// */
 SSD1306_SEND_SYMBOL:
   sbrc _EREG_, _I2CERF_ ; Check error flag
   ret
@@ -80,14 +80,14 @@ SSD1306_SEND_SYMBOL:
 #endif
   mov R0, tmp
   _SSD1306_SEND_DATA_BYTE:
-    //ldi txByte, 0b01010101
+;    ldi txByte, 0b01010101
     lpm txByte, Z+
     rcall I2CM_SEND_PACKET
     dec R0
     brne _SSD1306_SEND_DATA_BYTE
   ret
 
-/* ////////////////////////////// SDD1306 Burst Command //////////////////////////////// */
+;/* ////////////////////////////// SDD1306 Burst Command //////////////////////////////// */
 SSD1306_BURST_COMMAND:
   sbrc _EREG_, _I2CERF_ ; Check error flag
   ret
@@ -99,7 +99,7 @@ SSD1306_BURST_COMMAND:
     brne _INIT_SSD1306_BYTE
   ret
 
-/* ///////////////////////////// SDD1306 Burst Data Start ////////////////////////////// */
+;/* ///////////////////////////// SDD1306 Burst Data Start ////////////////////////////// */
 SSD1306_BURST_DATA_START:
   sbrc _EREG_, _I2CERF_ ; Check error flag
   ret
