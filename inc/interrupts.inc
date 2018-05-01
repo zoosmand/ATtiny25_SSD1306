@@ -6,20 +6,20 @@
  */ 
 
 
- /***************************************** WATCHDOG ***************************************/
+ /**************************************** WATCHDOG ***************************************/
 _WDT:
   push R1
   push R0
   in R0, SREG
   push R0
-	push tmp
+  push tmp
 
   wdr
   in tmp, WDTCR
   sbr tmp, (1<<WDIE)
   out WDTCR, tmp
 
-	pop tmp
+  pop tmp
   pop R0
   out SREG, R0
   pop R0
