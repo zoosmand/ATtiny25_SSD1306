@@ -1,13 +1,13 @@
-/*
- * i2c.inc
- *
- *  Created: 30.04.2018 13:15:31
- *   Author: zoosman
- */ 
+;/*
+; * i2c.inc
+; *
+; *  Created: 30.04.2018 13:15:31
+; *   Author: zoosman
+; */ 
 
 
-/************************************* I2C Routines **************************************/
-/* ////////////////////////////// I2C Start Condition ////////////////////////////////// */
+;/************************************* I2C Routines **************************************/
+;/* ////////////////////////////// I2C Start Condition ////////////////////////////////// */
 I2CM_START:
   sbi I2CPORT, SCL
   nop
@@ -27,7 +27,7 @@ I2CM_START:
   out USISR, tmp
   ret
 
-/* //////////////////////////////// I2C Stop Condition ///////////////////////////////// */
+;/* //////////////////////////////// I2C Stop Condition ///////////////////////////////// */
 I2CM_STOP:
   ldi tmp, 0x80
   out USIDR, tmp
@@ -50,7 +50,7 @@ I2CM_STOP:
   out USISR, tmp
   ret
 
-/* /////////////////////////////////// I2C Transfer //////////////////////////////////// */
+;/* /////////////////////////////////// I2C Transfer //////////////////////////////////// */
 I2CM_TRANSFER:
   in tmp, USICR
   sbr tmp, (1<<USITC)
@@ -78,7 +78,7 @@ I2CM_TRANSFER:
   nop
   ret
 
-/* ////////////////////////////// I2C Transfer Buffer ///////////////////////////////// */
+;/* ////////////////////////////// I2C Transfer Buffer ///////////////////////////////// */
 I2CM_TRANSFER_BUFFER:
   cbi I2CPORT, SCL
   in tmp, USISR
@@ -88,7 +88,7 @@ I2CM_TRANSFER_BUFFER:
   rcall I2CM_TRANSFER
   ret
 
-/* ////////////////////////////// I2C Transfer ACK/NACK /////////////////////////////// */
+;/* ////////////////////////////// I2C Transfer ACK/NACK /////////////////////////////// */
 I2CM_RECEIVE_ACK:
   cbi I2CDDR, SDA ; Input
   in tmp, USISR
@@ -100,7 +100,7 @@ I2CM_RECEIVE_ACK:
   sbi I2CDDR, SDA ; Output
   ret
 
-/* ////////////////////////////// I2C Transfer ACK/NACK /////////////////////////////// */
+;/* ////////////////////////////// I2C Transfer ACK/NACK /////////////////////////////// */
 I2CM_SEND_ACK:
   sbi I2CDDR, SDA ; Output
   in tmp, USISR
@@ -113,7 +113,7 @@ I2CM_SEND_ACK:
 
   _PREPARE_NACK:
     ser tmp
-	  rjmp _TRANSFER
+    rjmp _TRANSFER
 
   _PREPARE_ACK:
     clr tmp
@@ -123,7 +123,7 @@ I2CM_SEND_ACK:
     rcall I2CM_TRANSFER
   ret
 
-/* ///////////////////////////// I2C Send Slave Address /////////////////////////////// */
+;/* ///////////////////////////// I2C Send Slave Address /////////////////////////////// */
 I2CM_SEND_ADDRESS:
   sbrc _EREG_, _I2CERF_ ; Check error flag
   ret
@@ -143,9 +143,9 @@ I2CM_SEND_ADDRESS:
   _I2CM_SEND_ADDRESS_EXIT:
     ret
 
-/* //////////////////////////// I2C Send Packet to Slave //////////////////////////// */
+;/* //////////////////////////// I2C Send Packet to Slave //////////////////////////// */
 I2CM_SEND_PACKET:
-  sbrc _EREG_, _I2CERF_ // Check error bit
+  sbrc _EREG_, _I2CERF_ ; Check error flag
   ret
   out USIDR, txByte
   rcall I2CM_TRANSFER_BUFFER
@@ -157,7 +157,7 @@ I2CM_SEND_PACKET:
   _I2CM_SEND_PACKET_EXIT:
     ret
 
-/* ////////////////////////// I2C Receive Packet from Slave /////////////////////////// */
+;/* ////////////////////////// I2C Receive Packet from Slave /////////////////////////// */
 I2CM_RECEIVE_PACKET:
   cbi I2CDDR, SDA ; Input
   rcall I2CM_TRANSFER_BUFFER
