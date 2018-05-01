@@ -6,7 +6,7 @@
  */ 
 
 
- /***************************************** WATHDOG ***************************************/
+ /***************************************** WATCHDOG ***************************************/
 _WDT:
   push R1
   push R0
@@ -52,12 +52,12 @@ _TIMER0_OVF:
     rjmp _OUT_OF_TIMER0
 
   _OUT_OF_SLEEP:
-  	rcall LED0_BLINK
+    rcall LED0_BLINK
     in tmp, MCUCR
     cbr tmp, (1<<SE)
     out MCUCR, tmp
-	set_tcnt
-	sbr _EREG_, (1<<_DRIF_)
+    set_tcnt
+    sbr _EREG_, (1<<_DRIF_)
 
   _OUT_OF_TIMER0:
     nop
