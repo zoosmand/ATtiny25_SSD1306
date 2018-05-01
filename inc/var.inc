@@ -81,8 +81,8 @@ SSD1306_init_commands: .db 0xae, 0xd5, 0x80, 0xa8, 0xfc, 0xd3, 0x00, 0x40, 0x8d,
 
 .dseg
 .org 0x0060
-	lcdAddr:				.byte 1
-  SSD1306_pos:    .byte 6
+  lcdAddr:      .byte 1
+  SSD1306_pos:  .byte 6
 
  
 //.eseg
